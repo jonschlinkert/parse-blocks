@@ -1,0 +1,11 @@
+{{#definedoc "foo" a.b}}
+This is content foo
+{{/definedoc}}
+
+{{#definedoc "bar" a.c}}
+This is content bar
+{{/definedoc}}
+
+{{#definedoc "baz" a.d}}
+This is content baz
+{{/definedoc}}

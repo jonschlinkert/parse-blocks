@@ -1,13 +1,3 @@
-## License
-{%= copyright() %}
-Copyright (c) 2014 Fractal <contact@wearefractal.com>
-{%= license() %}
-
-***
-
-{%= include("footer") %}
-
-
 {{#definedoc "foo" a.b}}
 ---
 msg: foo message

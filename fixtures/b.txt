@@ -1,13 +1,13 @@
-{{#definedoc "foo" foo.bar.baz "quuz"}}
+<%- definedoc "foo" a.b %>
 ---
 msg: foo message
 ---
 Here's some content for <%= msg %>.
-{{/definedoc}}
+<%/ definedoc %>
 
-{{#definedoc "bar" foo.bar.baz "quuz"}}
+<%- definedoc "bar" c.d e.f %>
 ---
 msg: bar message
 ---
 Here's some content for <%= msg %>.
-{{/definedoc}}
+<%/ definedoc %>
