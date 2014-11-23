@@ -28,6 +28,7 @@
     "test": "mocha -R spec"
   },
   "devDependencies": {
+    "lodash": "^2.4.1",
     "mocha": "*",
     "should": "*"
   },

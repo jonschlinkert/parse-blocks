@@ -8,93 +8,99 @@
 'use strict';
 
 var fs = require('fs');
+var _ = require('lodash');
 var get = require('get-value');
-var typeOf = require('kind-of');
 
 var a = /\{\{#([^\\}]*(?:\\.[^\\}]*)*)\}\}/g;
 var b = /\{\{\/([^\\}]*(?:\\.[^\\}]*)*)\}\}/g;
 
-var parser = module.exports = function parser(str, fn) {
+var parser = module.exports = function parser(str, locals) {
   str = str.replace(/\r/g, '');
 
   var lines = str.split(/\n/);
   var len = lines.length;
   var i = 0;
-  var j = 0;
 
   var name = 'definedoc';
+  var stats = {};
+  stats[name] = {};
+
   var isBlock = false;
   var cache = {};
-  var stats = {};
   var match;
+  var n;
 
   while (i < len) {
     var line = lines[i++];
+    var o;
 
     if (match = a.exec(line)) {
       isBlock = true;
+      o = {};
 
-      var context = {};
-      var args = match[1].split(' ').filter(Boolean);
-      if (typeof fn === 'function') {
-        context = fn(args);
+      var props = match[1].split(' ').filter(Boolean);
+
+      // remove the helper name from the props array
+      props.shift();
+      // get the template key
+      n = JSON.parse(props[0]);
+      // remove the template key from the props
+      props.shift();
+
+      if (/\./.test(props[0])) {
+        props = get(locals, props[0]);
       }
 
-      cache[j] = {};
-      cache[j].args = args;
-      cache[j].context = context;
-      cache[j].content = [];
-      cache[j].orig = [];
-      cache[j].lines = 0;
+      o = {};
+      o.locals = props;
+      o.content = [];
+      o.orig = [];
     }
 
     if (Boolean(line) && isBlock) {
-      if (cache[j].lines !== 0) {
-        cache[j].content.push(line);
-      }
-      cache[j].orig.push(line);
-      cache[j].lines++;
+      o.content.push(line);
+      o.orig.push(line);
     }
 
     if (b.exec(line)) {
-      cache[j].content.pop();
-      cache[j].content = cache[j].content.join('\n');
+      o.content.shift();
+      o.content.pop();
+      o.content = o.content.join('\n');
       isBlock = false;
-      j++;
     }
+
+    cache[n] = o;
   }
 
-  stats.orig = cache;
+  stats[name] = cache;
   return stats;
 };
 
-var cache = {
-  foo: 'this is <%= foo %>',
-  bar: 'this is <%= bar %>',
-  baz: 'this is <%= baz %>',
-  fez: 'this is <%= fez %>'
+var ctx = {
+  a: {b: {msg: 'one'}},
+  b: {c: {msg: 'two'}},
+  c: {d: {msg: 'three'}},
+  d: {e: {msg: 'four'}}
 };
 
-var context = {
-  a: {b: {foo: 'one', bar: 'two', baz: 'three', fez: 'four'}}
-};
+var matter = require('gray-matter');
+var aaa = parser(fs.readFileSync('fixtures/a.md', 'utf8'), ctx);
 
-var aaa = parser(fs.readFileSync('fixtures/a.md', 'utf8'), function(args) {
-  // console.log(args)
-  return args.reduce(function (acc, arg, i) {
-    console.log(i)
-    if (/\./.test(arg)) {
-      acc = acc.concat(get(context, arg));
-    } else {
-      acc = acc.concat(arg);
+var template = _.reduce(aaa, function (res, v, k) {
+  res[k] = _.reduce(v, function (acc, value, key) {
+    if (value && value.content) {
+      var res = matter(value.content);
+      acc[key] = _.omit(_.extend({}, value, res), 'lang');
     }
     return acc;
-  }, []);
-});
+  }, {});
+  return res;
+}, {});
 
-var ccc = parser(fs.readFileSync('fixtures/c.md', 'utf8'));
-var ddd = parser(fs.readFileSync('fixtures/d.md', 'utf8'));
+// var ccc = parser(fs.readFileSync('fixtures/c.md', 'utf8'));
+// var ddd = parser(fs.readFileSync('fixtures/d.md', 'utf8'));
 
-console.log(aaa.orig);
+console.log(template);
+// console.log(aaa.definedoc.bar);
 // console.log(ccc);
 // console.log(ddd);

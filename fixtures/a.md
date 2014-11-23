@@ -8,28 +8,28 @@ Copyright (c) 2014 Fractal <contact@wearefractal.com>
 {%= include("footer") %}
 
 
-{{#definedoc "foo" a.b.foo}}
+{{#definedoc "foo" a.b}}
 ---
 msg: foo message
 ---
 Here's some content for <%= msg %>.
 {{/definedoc}}
 
-{{#definedoc "bar" a.b.bar}}
+{{#definedoc "bar" b.c}}
 ---
 msg: bar message
 ---
 Here's some content for <%= msg %>.
 {{/definedoc}}
 
-{{#definedoc "baz" a.b.baz}}
+{{#definedoc "baz" c.d}}
 ---
 msg: baz message
 ---
 Here's some content for <%= msg %>.
 {{/definedoc}}
 
-{{#definedoc "fez" a.b.fez}}
+{{#definedoc "fez" d.e}}
 ---
 msg: fez message
 ---
