@@ -12,6 +12,7 @@ var extend = require('extend-shallow');
 
 module.exports = function blocks(str, options, thisArg) {
   var opts = extend({open: ['{{#', '}}'], close: ['{{/', '}}']}, options);
+  var ctx = extend({}, opts.locals, thisArg);
   opts.name = opts.name || 'definedoc';
 
   str = str.replace(/\r/g, '');
@@ -47,13 +48,13 @@ module.exports = function blocks(str, options, thisArg) {
       props.shift();
 
       // If `thisArg` is passed, resolve any values from object paths
-      if (typeof thisArg === 'object') {
+      if (Object.keys(ctx).length > 0) {
         var get = require('get-value');
 
-        if (thisArg.hasOwnProperty(props[0])) {
-          context = thisArg[props[0]];
+        if (ctx.hasOwnProperty(props[0])) {
+          context = ctx[props[0]];
         } else {
-          context = get(thisArg, props[0]) || {};
+          context = get(ctx, props[0]) || {};
         }
       }
 
