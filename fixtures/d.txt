@@ -1,0 +1,15 @@
+before
+
+{{#apidoc "aaa" a}}
+This is content <%= name %>
+{{/apidoc}}
+
+{{#apidoc "bbb" b}}
+This is content <%= name %>
+{{/apidoc}}
+
+{{#apidoc "ccc" c}}
+This is content <%= name %>
+{{/apidoc}}
+
+after

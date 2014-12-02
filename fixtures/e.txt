@@ -1,0 +1,15 @@
+aaa
+
+<%- apidoc "aaa" a.b %>
+This is content aaa
+<%/ apidoc %>
+
+<%- apidoc "bbb" a.c %>
+This is content bbb
+<%/ apidoc %>
+
+<%- apidoc "ccc" a.d %>
+This is content ccc
+<%/ apidoc %>
+
+bbb

@@ -1,11 +1,15 @@
-{{#definedoc "foo" a.b}}
-This is content foo
+aaa
+
+{{#definedoc "aaa" a.b}}
+This is content aaa
 {{/definedoc}}
 
-{{#definedoc "bar" a.c}}
-This is content bar
+{{#definedoc "bbb" a.c}}
+This is content bbb
 {{/definedoc}}
 
-{{#definedoc "baz" a.d}}
-This is content baz
+{{#definedoc "ccc" a.d}}
+This is content ccc
 {{/definedoc}}
+
+bbb

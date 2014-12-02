@@ -1,20 +1,20 @@
-{{#definedoc "foo" a.b}}
+{{#definedoc "aaa" a.b}}
 ---
-msg: foo message
----
-Here's some content for <%= msg %>.
-{{/definedoc}}
-
-{{#definedoc "bar" b.c}}
----
-msg: bar message
+msg: aaa message
 ---
 Here's some content for <%= msg %>.
 {{/definedoc}}
 
-{{#definedoc "baz" c.d}}
+{{#definedoc "bbb" b.c}}
 ---
-msg: baz message
+msg: bbb message
+---
+Here's some content for <%= msg %>.
+{{/definedoc}}
+
+{{#definedoc "ccc" c.d}}
+---
+msg: ccc message
 ---
 Here's some content for <%= msg %>.
 {{/definedoc}}

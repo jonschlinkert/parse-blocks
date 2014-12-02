@@ -1,13 +1,13 @@
-<%- definedoc "foo" a.b %>
+<%- apidoc "aaa" a.b %>
 ---
-msg: foo message
+msg: aaa message
 ---
 Here's some content for <%= msg %>.
-<%/ definedoc %>
+<%/ apidoc %>
 
-<%- definedoc "bar" c.d e.f %>
+<%- apidoc "bbb" c.d e.f %>
 ---
-msg: bar message
+msg: bbb message
 ---
 Here's some content for <%= msg %>.
-<%/ definedoc %>
+<%/ apidoc %>
