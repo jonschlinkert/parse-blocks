@@ -10,32 +10,32 @@
 var delims = require('delimiter-regex');
 var extend = require('extend-shallow');
 
-module.exports = function(str, options) {
+module.exports = function blocks(str, options, thisArg) {
   var opts = extend({open: ['{{#', '}}'], close: ['{{/', '}}']}, options);
-  str = str.replace(/\r/g, '');
+  opts.name = opts.name || 'definedoc';
 
+  str = str.replace(/\r/g, '');
   var lines = str.split(/\n/);
   var len = lines.length;
   var i = 0;
 
-  var name = 'definedoc';
   var a = delims(opts.open);
   var b = delims(opts.close);
 
   var stats = {};
-  stats[name] = {};
+  stats[opts.name] = {};
 
   var isBlock = false;
+  var context = {};
   var cache = {};
   var match;
 
   while (i < len) {
     var line = lines[i++];
-    var o, n;
+    var n;
 
     if (match = a.exec(line)) {
       isBlock = true;
-      o = {};
       var props = match[1].split(' ').filter(Boolean);
       // remove the helper name from the props array
       props.shift();
@@ -46,13 +46,19 @@ module.exports = function(str, options) {
       // remove the template key from the props
       props.shift();
 
-      // If `locals` is passed, resolve object paths
-      if (opts.locals && /\./.test(props[0])) {
+      // If `thisArg` is passed, resolve any values from object paths
+      if (typeof thisArg === 'object') {
         var get = require('get-value');
-        props = get(opts.locals, props[0]);
+
+        if (thisArg.hasOwnProperty(props[0])) {
+          context = thisArg[props[0]];
+        } else {
+          context = get(thisArg, props[0]) || {};
+        }
       }
 
       cache[n].args = props;
+      cache[n].context = context;
       cache[n].content = [];
       cache[n].orig = [];
     }
@@ -69,7 +75,8 @@ module.exports = function(str, options) {
       isBlock = false;
     }
 
-    stats[name] = cache;
+    stats[opts.name] = cache;
   }
+
   return stats;
 };
