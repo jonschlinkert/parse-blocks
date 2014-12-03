@@ -1,7 +1,7 @@
 {
   "name": "parse-blocks",
   "description": "Parse basic template blocks in a string, like Handlebars block expressions but returns an object. Delimiters are customizable.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "https://github.com/jonschlinkert/parse-blocks",
   "author": {
     "name": "Jon Schlinkert",
