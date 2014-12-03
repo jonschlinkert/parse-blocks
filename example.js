@@ -14,11 +14,11 @@ var str = read('fixtures/d.txt');
 var ctx = {a: {name: 'AAA'}, b: {name: 'BBB'}, c: {name: 'CCC'}};
 var res = blocks(str, {name: 'apidoc'}, ctx);
 
+console.log(inspect(res, null, 10))
 _.forIn(res.apidoc, function (value, key) {
   value.content = _.template(value.content, value.context);
 });
 
-console.log(res)
 
 
 // console.log(inspect(blocks(read('fixtures/d.txt')), null, 10));
