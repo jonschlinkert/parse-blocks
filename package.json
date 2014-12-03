@@ -1,7 +1,7 @@
 {
   "name": "parse-blocks",
   "description": "Parse basic template blocks in a string, like Handlebars block expressions but returns an object. Delimiters are customizable.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/jonschlinkert/parse-blocks",
   "author": {
     "name": "Jon Schlinkert",
@@ -28,6 +28,7 @@
     "test": "mocha -R spec"
   },
   "devDependencies": {
+    "lodash": "^2.4.1",
     "mocha": "*",
     "should": "*"
   },
